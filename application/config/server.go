@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"strconv"
 )
 
@@ -22,10 +23,10 @@ var Server = ServerConfig{
 	Debug:        true,
 }
 
-func GetServerAddress() string {
-	return ":" + strconv.Itoa(Server.Port)
+func (server ServerConfig) GetServerAddress() string {
+	return fmt.Sprintf(":%s", strconv.Itoa(server.Port))
 }
 
-func GetRendererBaseUrl() string {
-	return Server.BaseUrl + GetServerAddress()
+func (server ServerConfig) GetRendererBaseUrl() string {
+	return server.BaseUrl + server.GetServerAddress()
 }

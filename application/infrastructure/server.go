@@ -8,7 +8,7 @@ import (
 func CreateServer() {
 	fs := http.FileServer(http.Dir(config.Server.RendererPath))
 	http.Handle(config.Server.RendererUrl, fs)
-	err := http.ListenAndServe(config.GetServerAddress(), nil)
+	err := http.ListenAndServe(config.Server.GetServerAddress(), nil)
 	if err != nil {
 		return
 	}

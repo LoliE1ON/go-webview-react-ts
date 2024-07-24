@@ -13,7 +13,7 @@ func CreateWebView() {
 	w.SetTitle(config.Server.Title)
 	w.SetSize(config.Application.Width, config.Application.Height, webview2.HintNone)
 
-	w.Navigate(config.GetRendererBaseUrl())
+	w.Navigate(config.Server.GetRendererBaseUrl())
 	w.Run()
 
 	err := w.Bind("sendMessage", func(msg string) string {
