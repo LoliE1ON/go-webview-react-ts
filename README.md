@@ -10,7 +10,7 @@ Execute the command
 ## Build
 
 To build execute the command:
-`go build -ldflags="-s -w" -o app.exe main.go`
+`go build -ldflags="-s -w" -o go-webview.git.exe main.go`
 
 For compress the binary:
-`./bin/upx.exe --best --lzma myproject.exe`
+`./bin/upx.exe --best --lzma go-webview.git.exe`
