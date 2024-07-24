@@ -8,5 +8,9 @@ dev:
 
 ## Build
 build:
-	go build -ldflags="-s -w" -o go-webview.git.exe main.go
+	go build -ldflags="-s -w -H=windowsgui" -o go-webview.git.exe main.go
 	./bin/upx.exe --best --lzma ../go-webview.git.exe
+
+## Update dependencies
+refresh:
+	go mod tidy

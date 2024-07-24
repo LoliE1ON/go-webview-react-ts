@@ -3,6 +3,7 @@ package infrastructure
 import (
 	"encoding/json"
 	"github.com/jchv/go-webview2"
+	"github.com/lxn/win"
 	"github/e1on/go-webview.git/application/config"
 )
 
@@ -12,10 +13,7 @@ func CreateWebView() {
 
 	w.SetTitle(config.Server.Title)
 	w.SetSize(config.Application.Width, config.Application.Height, webview2.HintNone)
-
 	w.Navigate(config.Server.GetRendererBaseUrl())
-	w.Run()
-
 	err := w.Bind("sendMessage", func(msg string) string {
 		var message = jsonToMessage(msg)
 
@@ -30,6 +28,10 @@ func CreateWebView() {
 	if err != nil {
 		return
 	}
+
+	hideWindowPanel(w)
+
+	w.Run()
 }
 
 func messageToJson(message config.Message) string {
@@ -43,4 +45,13 @@ func jsonToMessage(asd string) config.Message {
 	json.Unmarshal([]byte(asd), &message)
 
 	return message
+}
+
+func hideWindowPanel(w webview2.WebView) {
+	hwnd := win.HWND(w.Window())
+
+	oldStyle := win.GetWindowLong(hwnd, win.GWL_STYLE)
+	newStyle := oldStyle &^ (win.WS_CAPTION | win.WS_THICKFRAME)
+	win.SetWindowLong(hwnd, win.GWL_STYLE, newStyle)
+	win.SetWindowPos(hwnd, 0, 0, 0, 0, 0, win.SWP_NOMOVE|win.SWP_NOSIZE|win.SWP_FRAMECHANGED)
 }
