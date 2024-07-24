@@ -6,7 +6,6 @@ import (
 )
 
 type ServerConfig struct {
-	Title        string
 	Port         int
 	BaseUrl      string
 	RendererPath string
@@ -15,7 +14,6 @@ type ServerConfig struct {
 }
 
 var Server = ServerConfig{
-	Title:        "Application",
 	Port:         8080,
 	BaseUrl:      "http://localhost",
 	RendererPath: "renderer/dist",

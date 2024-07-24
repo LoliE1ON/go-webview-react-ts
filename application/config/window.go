@@ -1,12 +1,12 @@
 package config
 
-type ApplicationConfig struct {
+type WindowConfig struct {
 	Title  string
 	Width  int
 	Height int
 }
 
-var Application = ApplicationConfig{
+var Window = WindowConfig{
 	Title:  "Test application",
 	Width:  800,
 	Height: 600,

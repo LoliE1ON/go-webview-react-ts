@@ -11,8 +11,8 @@ func CreateWebView() {
 	w := webview2.New(config.Server.Debug)
 	defer w.Destroy()
 
-	w.SetTitle(config.Server.Title)
-	w.SetSize(config.Application.Width, config.Application.Height, webview2.HintNone)
+	w.SetTitle(config.Window.Title)
+	w.SetSize(config.Window.Width, config.Window.Height, webview2.HintNone)
 	w.Navigate(config.Server.GetRendererBaseUrl())
 	err := w.Bind("sendMessage", func(msg string) string {
 		var message = jsonToMessage(msg)
