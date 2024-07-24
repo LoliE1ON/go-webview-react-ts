@@ -12,4 +12,4 @@ Execute the command
 To build and compress execute the command:
 `make build`
 
-![img.png](img.png)
+![img.png](asset/img.png)
