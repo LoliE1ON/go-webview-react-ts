@@ -5,12 +5,9 @@
 ## Development
 
 Execute the command 
-`go run main.go`
+`make dev`
 
 ## Build
 
-To build execute the command:
-`go build -ldflags="-s -w" -o go-webview.git.exe main.go`
-
-For compress the binary:
-`./bin/upx.exe --best --lzma go-webview.git.exe`
+To build and compress execute the command:
+`make build`
