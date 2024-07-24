@@ -13,4 +13,4 @@ To build execute the command:
 `go build -ldflags="-s -w" -o app.exe main.go`
 
 For compress the binary:
-`./upx.exe --best --lzma myproject.exe`
+`./bin/upx.exe --best --lzma myproject.exe`
