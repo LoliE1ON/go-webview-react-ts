@@ -4,11 +4,13 @@ help:
 
 ## Development
 dev:
+	cd ./renderer && npm run build
 	go run main.go
 
 ## Build
 build:
 	go build -ldflags="-s -w -H=windowsgui" -o go-webview.git.exe main.go
+	cd ./renderer && npm run build
 	./bin/upx.exe --best --lzma ../go-webview.git.exe
 
 ## Update dependencies

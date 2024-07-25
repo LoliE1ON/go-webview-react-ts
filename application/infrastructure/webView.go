@@ -2,24 +2,27 @@ package infrastructure
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/jchv/go-webview2"
 	"github.com/lxn/win"
 	"github/e1on/go-webview.git/application/config"
 )
 
 func CreateWebView() webview2.WebView {
-	var webView = webview2.New(true)
-	defer webView.Destroy()
-
-	return webView
+	return webview2.New(true)
 }
 
-func ConfigureWebView(application *config.Application, webView webview2.WebView) {
-	webView.SetTitle(application.Window.Title)
-	webView.SetSize(application.Window.Width, application.Window.Height, webview2.HintNone)
-	webView.Navigate(application.Server.GetRendererBaseUrl())
-	webView.Bind("sendMessage", func(msg string) string {
-		var message = jsonToMessage(msg)
+func ConfigureWebView(application config.Application) {
+	defer application.Window.WebView.Destroy()
+
+	application.Window.WebView.SetTitle(application.Window.Title)
+	application.Window.WebView.SetSize(application.Window.Width, application.Window.Height, webview2.HintNone)
+	application.Window.WebView.Navigate(application.Server.GetRendererBaseUrl())
+
+	err := application.Window.WebView.Bind("sendMessageToGo", func(json string) string {
+		fmt.Println("Received message from JavaScript:", json)
+
+		var message = jsonToMessage(json)
 
 		handler, exists := application.EventHandlerMap[message.Event]
 		if !exists {
@@ -29,10 +32,16 @@ func ConfigureWebView(application *config.Application, webView webview2.WebView)
 		response := handler(application, message.Data)
 		return messageToJson(response)
 	})
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-	hideWindowPanel(webView)
+	hideWindowPanel(application.Window.WebView)
 
-	webView.Run()
+	application.Window.WebView.Run()
+
+	fmt.Println("WebView is set up and running")
 }
 
 func messageToJson(message interface{}) string {

@@ -26,6 +26,6 @@ func main() {
 		},
 	}
 
-	go infrastructure.CreateServer(&application)
-	go infrastructure.ConfigureWebView(&application, application.Window.WebView)
+	go infrastructure.CreateServer(application)
+	infrastructure.ConfigureWebView(application)
 }
