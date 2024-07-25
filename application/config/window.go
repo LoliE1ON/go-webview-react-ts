@@ -1,13 +1,10 @@
 package config
 
-type WindowConfig struct {
-	Title  string
-	Width  int
-	Height int
-}
+import "github.com/jchv/go-webview2"
 
-var Window = WindowConfig{
-	Title:  "Test application",
-	Width:  800,
-	Height: 600,
+type WindowConfig struct {
+	Title   string
+	Width   int
+	Height  int
+	WebView webview2.WebView
 }

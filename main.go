@@ -1,11 +1,31 @@
 package main
 
 import (
+	"github/e1on/go-webview.git/application/config"
 	"github/e1on/go-webview.git/application/infrastructure"
+	"github/e1on/go-webview.git/application/message"
 )
 
 func main() {
-	go infrastructure.CreateServer()
+	var application = config.Application{
+		Server: config.ServerConfig{
+			Port:         8080,
+			BaseUrl:      "http://localhost",
+			RendererPath: "renderer/dist",
+			RendererUrl:  "/",
+			Debug:        true,
+		},
+		Window: config.WindowConfig{
+			Title:   "Test application.go",
+			Width:   800,
+			Height:  600,
+			WebView: infrastructure.CreateWebView(),
+		},
+		EventHandlerMap: map[string]config.EventHandler{
+			"closeApplication": message.CloseApplication,
+		},
+	}
 
-	infrastructure.CreateWebView()
+	go infrastructure.CreateServer(&application)
+	go infrastructure.ConfigureWebView(&application, application.Window.WebView)
 }

@@ -13,14 +13,6 @@ type ServerConfig struct {
 	Debug        bool
 }
 
-var Server = ServerConfig{
-	Port:         8080,
-	BaseUrl:      "http://localhost",
-	RendererPath: "renderer/dist",
-	RendererUrl:  "/",
-	Debug:        true,
-}
-
 func (server ServerConfig) GetServerAddress() string {
 	return fmt.Sprintf(":%s", strconv.Itoa(server.Port))
 }

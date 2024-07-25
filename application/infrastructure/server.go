@@ -5,10 +5,10 @@ import (
 	"net/http"
 )
 
-func CreateServer() {
-	fs := http.FileServer(http.Dir(config.Server.RendererPath))
-	http.Handle(config.Server.RendererUrl, fs)
-	err := http.ListenAndServe(config.Server.GetServerAddress(), nil)
+func CreateServer(application *config.Application) {
+	fs := http.FileServer(http.Dir(application.Server.RendererPath))
+	http.Handle(application.Server.RendererUrl, fs)
+	err := http.ListenAndServe(application.Server.GetServerAddress(), nil)
 	if err != nil {
 		return
 	}

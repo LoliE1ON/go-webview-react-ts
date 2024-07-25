@@ -7,34 +7,35 @@ import (
 	"github/e1on/go-webview.git/application/config"
 )
 
-func CreateWebView() {
-	w := webview2.New(config.Server.Debug)
-	defer w.Destroy()
+func CreateWebView() webview2.WebView {
+	var webView = webview2.New(true)
+	defer webView.Destroy()
 
-	w.SetTitle(config.Window.Title)
-	w.SetSize(config.Window.Width, config.Window.Height, webview2.HintNone)
-	w.Navigate(config.Server.GetRendererBaseUrl())
-	err := w.Bind("sendMessage", func(msg string) string {
+	return webView
+}
+
+func ConfigureWebView(application *config.Application, webView webview2.WebView) {
+	webView.SetTitle(application.Window.Title)
+	webView.SetSize(application.Window.Width, application.Window.Height, webview2.HintNone)
+	webView.Navigate(application.Server.GetRendererBaseUrl())
+	webView.Bind("sendMessage", func(msg string) string {
 		var message = jsonToMessage(msg)
 
-		handler, exists := config.EventHandlers[message.Event]
+		handler, exists := application.EventHandlerMap[message.Event]
 		if !exists {
 			return `{"error": "Unknown event"}`
 		}
 
-		response := handler(message.Data)
+		response := handler(application, message.Data)
 		return messageToJson(response)
 	})
-	if err != nil {
-		return
-	}
 
-	hideWindowPanel(w)
+	hideWindowPanel(webView)
 
-	w.Run()
+	webView.Run()
 }
 
-func messageToJson(message config.Message) string {
+func messageToJson(message interface{}) string {
 	result, _ := json.Marshal(message)
 
 	return string(result)
